@@ -1,0 +1,179 @@
+$bgColor:black;
+$lineColor:white;
+
+body{
+    margin: 0 auto;
+    background-color: $bgColor;
+}
+
+@mixin def {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.main{
+    @include def;
+}
+
+@keyframes outSideAni {
+    80% {
+        transform: translateX(-50%) translateY(-50%) scale(2) rotate(-720deg);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-50%) scale(2) rotate(-720deg);
+    }
+}
+
+@keyframes inSideAni {
+    80% {
+        transform: translateX(-50%) translateY(-50%) scale(2) rotate(720deg);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-50%) scale(2) rotate(720deg);
+    }
+}
+
+.outSide{
+    @include def;
+    transform: translateX(-50%) translateY(-50%) scale(0.00001);
+    animation: outSideAni 1s alternate infinite;
+}
+
+.inSide{
+    @include def;
+    transform: translateX(-50%) translateY(-50%) scale(0.00001);
+    animation: inSideAni 1s alternate infinite;
+}
+
+.whiteCircle{
+    @include def;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: $lineColor;
+}
+
+.blackCircle{
+    @include def;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: $bgColor;
+}
+
+.square{
+    @include def();
+    width: 60px;
+    height: 150px;
+    margin-top: -50px;
+    background: $bgColor;
+}
+
+@for $i from 1 through 3 {
+    .box#{$i} {
+        @include def;
+        width: 50px;
+        height: 50px;
+        transform: translateX(-50%) translateY(-50%) rotate(calc(120deg * (#{$i} - 1)));
+        background: $bgColor;
+    }
+}
+
+.diaLine1{
+    @include def;
+    width: 5px;
+    height: 30px;
+    transform: translateX(-34px) translateY(-120px) rotate(5deg);
+    background: $lineColor;
+}
+
+.diaLine2{
+    @include def;
+    width: 5px;
+    height: 30px;
+    transform: translateX(29px) translateY(-120px) rotate(-5deg);
+    background: $lineColor;
+}
+
+.topLine{
+    @include def;
+    width: 60px;
+    height: 5px;
+    transform: translateX(-50%) translateY(-120px);
+    background: $lineColor;
+}
+
+.middleWhiteCircle{
+    @include def;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background: $lineColor;
+}
+
+.middleBlackCircle{
+    @include def;
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    background: $bgColor;
+}
+
+
+@for $i from 1 through 3 {
+    .arrowBox#{$i} {
+        @include def;
+        transform: translateX(-50%) translateY(-50%) rotate(calc(120deg * (#{$i} - 1)));
+    }
+}
+
+.arrowRod{
+    @include def;
+    width: 5px;
+    height: 50px;
+    transform: translateX(-50%) translateY(-70px);
+    background: $lineColor;
+}
+
+.arrowTriangle{
+    @include def;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 10px 0 10px;
+    border-color: $lineColor transparent transparent transparent;
+    transform: translateX(-50%) translateY(-25px);
+}
+
+@for $i from 1 through 3 {
+    .textBox#{$i} {
+        @include def;
+        width: 50px;
+        height: 50px;
+        transform: translateX(-50%) translateY(-50%) rotate(calc(120deg * (#{$i} - 1)));
+    }
+}
+
+.text{
+    @include def;
+    width: 200px;
+    height: 300px;
+    margin-top: -200px;
+    background: black;
+    text-align: center;
+    font-size: 500%;
+    color:white;
+    opacity: 0;
+    animation: textAni 1s alternate infinite;
+}
+
+@keyframes textAni {
+    60% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
