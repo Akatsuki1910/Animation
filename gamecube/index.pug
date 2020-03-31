@@ -1,0 +1,19 @@
+doctype html
+html(lang="ja")
+  head
+    meta(charset="utf-8")
+    link(rel="stylesheet", href="style.css")
+    title テスト
+  body
+    span.rote
+      span.posi1
+        span.dice1
+          - for (let i = 1; i <= 6; i++)
+            span.dice_item(data-id=i) 
+      span.posi2
+        span.dice2
+          - for (let i = 1; i <= 6; i++)
+            span.dice_item(data-id=i) 
+      span.plate
+        - for (let i = 1; i <= 15; i++)
+          span.plate_item(data-id=i) 
