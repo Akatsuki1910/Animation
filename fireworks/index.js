@@ -57,6 +57,7 @@ function fireWorks(time) {
 	}
 
 	this.fireBallMove = () => {
+		var fireBallLifeTime = nowTime - startTime;
 		const p = targetY - posiY; //到達点までの差
 		push();
 		fill(fireColor[0], fireColor[1], fireColor[2], 255);
