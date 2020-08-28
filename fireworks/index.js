@@ -1,95 +1,92 @@
 function setup() {
-	windowResized(); //初期化
-	fw.push(new fireWorks(time));
+	createCanvas(400, 400); //初期化
+	fw.push(new fireWorks());
 	noStroke();
 	background(0);
 }
 
-let time = 0;
 let fw = [];
 
 function draw() {
-	background(0, 20); //背景色 兼 消す
+	background(0, 10); //背景色 兼 消す
 
-	if (random(1) < 0.1) {//ランダム生成
-		fw.push(new fireWorks(time));
+	if (random(1) < 0.08) { //ランダム生成
+		fw.push(new fireWorks());
 	}
 
-	for (var i = 0; i < fw.length; i++) {
+	for (let i = 0; i < fw.length; i++) {
 		fw[i].update();
 		if (fw[i].life()) {
-			fw.slice(i, 1);
+			fw.splice(i, 1);
 		}
 	}
 
-	time++;
 }
 
-function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
-}
 
-function fireWorks(time) {
-	const easing = 0.035; //いーじんぐ
-	const splitWindow = 10; //画面分割用変数
-	let startTime = time; //作成された時間
-	let nowTime = time; //今の時間
+function fireWorks() {
+	let easingOut = 0.035; //いーじんぐ
+	let splitWindow = 10; //画面分割用変数
+	let nowTime = 0; //今の時間
 	let posiX = random(0, windowWidth); //X
 	let posiY = random(windowHeight * (splitWindow - 1) / splitWindow, windowHeight); //Y
-	const targetY = random(10, windowHeight / 2); //到達点
-	const fireColor = [random(0, 256), random(0, 256), random(0, 256)]; //色
+	let targetY = random(10, windowHeight / 2); //到達点
+	let fireColor = [random(0, 256), random(0, 256), random(0, 256)]; //色
 
 	let fireBallLife = true; //玉生存
 	let fireWorkLife = false; //花生存
 
-	let fireWorkEasing = 0; //いーじんぐで使う
-	const flowerSize = random(100, 300); //大きさ
-	const flowerNum = 40; //花の量
+	let fireWorkEasingOut = 0; //いーじんぐで使う
+	let flowerSize = random(100, 300); //大きさ
+	let flowerNum = 40; //花の量
 	let fireWork = []; // 花配列
 
-	this.update = () => {
+	this.update = function() {
 		nowTime++;
 		if (fireBallLife) {
 			this.fireBallMove();
-		} else if (!fireWorkLife) {
-			this.fireWork();
+		} else if (fireWorkLife) {
+			this.fireWorkMove();
 		}
 	}
 
-	this.fireBallMove = () => {
-		var fireBallLifeTime = nowTime - startTime;
-		const p = targetY - posiY; //到達点までの差
-		push();
-		fill(fireColor[0], fireColor[1], fireColor[2], 255);
-		posiY += p * easing;
-		ellipse(posiX + sin(fireBallLifeTime / 3) * 3, posiY, 30);
-		pop();
+	this.fireBallMove = function() {
+		let p = targetY - posiY; //到達点までの差
+		//push();
+		fill(fireColor[0], fireColor[1], fireColor[2]);
+		posiY += p * easingOut;
+		ellipse(posiX + sin(nowTime / 3) * 3, posiY, 30);
+		//pop();
 		if (p > -8) { //お好みの値で
 			fireBallLife = false;
-			fireWorkEasing = 0;
-			for (var i = 0; i < flowerNum; i++) {
+			fireWorkLife = true;
+			for (let i = 0; i < flowerNum; i++) {
 				fireWork.push([posiX, posiY]);
 			}
 		}
 	}
 
-	this.fireWork = () => {
-		const p = flowerSize - fireWorkEasing; //到達点までの差
-		fireWorkEasing += p * easing;
-		for (var i = 0; i < flowerNum; i++) {
-			push();
+	this.fireWorkMove = function() {
+		let p = flowerSize - fireWorkEasingOut; //到達点までの差
+		fireWorkEasingOut += p * easingOut;
+		for (let i = 0; i < flowerNum; i++) {
+			//push();
 			fill(fireColor[0], fireColor[1], fireColor[2], 255);
-			fireWork[i][0] += Math.cos(i * 2 * Math.PI / flowerNum) * p * easing;
-			fireWork[i][1] += Math.sin(i * 2 * Math.PI / flowerNum) * p * easing;
+			fireWork[i][0] += cos(i * 2 * PI / flowerNum) * p * easingOut;
+			fireWork[i][1] += sin(i * 2 * PI / flowerNum) * p * easingOut;
 			ellipse(fireWork[i][0], fireWork[i][1], 10);
-			pop();
+			//pop();
 		}
 		if (p < 10) { //お好みの値で
-			fireWorkLife = true;
+			fireWorkLife = false;
 		}
 	}
 
-	this.life = () => {
-		return fireWorkLife;
+	this.life = function() {
+		let flg = false;
+		if (!fireBallLife && !fireWorkLife) {
+			flg = true;
+		}
+		return flg;
 	}
 }
